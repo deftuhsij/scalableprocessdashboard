@@ -1,20 +1,16 @@
-function multiply(num1, num2) {
-  const m = num1.length;
-  const n = num2.length;
-  const pos = new Array(m + n).fill(0);
-  for (let i = m - 1; i >= 0; i--) {
-    for (let j = n - 1; j >= 0; j--) {
-      const mul = (num1[i] - "0") * (num2[j] - "0");
-      const p1 = i + j;
-      const p2 = i + j + 1;
-      const sum = mul + pos[p2];
-      pos[p1] += Math.floor(sum / 10);
-      pos[p2] = sum % 10;
+function numDecodings(s) {
+  const dp = new Array(s.length + 1).fill(0);
+  dp[0] = 1;
+  dp[1] = s[0] === "0" ? 0 : 1;
+  for (let i = 2; i <= s.length; i++) {
+    const oneDigit = parseInt(s.substring(i - 1, i));
+    const twoDigits = parseInt(s.substring(i - 2, i));
+    if (oneDigit >= 1) {
+      dp[i] += dp[i - 1];
+    }
+    if (twoDigits >= 10 && twoDigits <= 26) {
+      dp[i] += dp[i - 2];
     }
   }
-  let result = "";
-  for (const p of pos) {
-    if (!(result.length === 0 && p === 0)) result += p;
-  }
-  return result.length === 0 ? "0" : result;
+  return dp[s.length];
 }
