@@ -1,7 +1,9 @@
-const remove = (arr, func) =>
-  Array.isArray(arr)
-    ? arr.filter(func).reduce((acc, val) => {
-        arr.splice(arr.indexOf(val), 1);
-        return acc.concat(val);
-      }, [])
-    : [];
+function isSymmetric(root) {
+  if (!root) return true;
+  return isMirror(root.left, root.right);
+  function isMirror(left, right) {
+    if (!left && !right) return true;
+    if (!left || !right || left.val !== right.val) return false;
+    return isMirror(left.left, right.right) && isMirror(left.right, right.left);
+  }
+}
